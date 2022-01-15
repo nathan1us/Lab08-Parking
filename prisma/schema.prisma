@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Vehicle {
+  id          Int       @id @default(autoincrement())
+  make        String
+  plate       String    @unique
+  type        String
+  club_pass   String    @default("")
+  createdAt   DateTime  @default(now())    
+}
+
+model Parking {
+  id          Int       @id @default(autoincrement())
+  space       Int       @default(200)
+}
