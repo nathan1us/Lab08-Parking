@@ -1,0 +1,228 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Lab08 Parking",
+        "description": "RESTful API that imitates a parking lot system.\nWritten using TypeScript, Node.js & Express, MySQL & Prisma",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "Parking endpoints",
+            "description": ""
+        },
+        {
+            "name": "Vehicle endpoints",
+            "description": ""
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/parking": {
+            "get": {
+                "tags": [
+                    "Parking endpoints"
+                ],
+                "description": "Get all parking lots",
+                "parameters": [],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns an array containing all existing parking lots",
+                        "schema": {
+                            "type": "array",
+                            "$ref": "#/definitions/Parking"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Parking endpoints"
+                ],
+                "description": "Create a new parking lot",
+                "parameters": [],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the newly created parking lot",
+                        "schema": {
+                            "$ref": "#/definitions/Parking"
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicle": {
+            "get": {
+                "tags": [
+                    "Vehicle endpoints"
+                ],
+                "description": "Get vehicle by license plate",
+                "parameters": [
+                    {
+                        "name": "plate",
+                        "in": "path",
+                        "description": "License plate of the vehicle",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a vehicle with matching license plate",
+                        "schema": {
+                            "$ref": "#/definitions/Vehicle"
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicle/:plate": {
+            "post": {
+                "tags": [
+                    "Vehicle endpoints"
+                ],
+                "description": "Create a new vehicle",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Request body containing all necessary information about a vehicle",
+                        "required": true,
+                        "type": "string",
+                        "schema": {
+                            "$ref": "#/definitions/Vehicle"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the newly created vehicle",
+                        "schema": {
+                            "$ref": "#/definitions/Vehicle"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Vehicle endpoints"
+                ],
+                "description": "Delete vehicle by license plate",
+                "parameters": [
+                    {
+                        "name": "plate",
+                        "in": "path",
+                        "description": "License plate of the vehicle",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a summary for the leaving vehicle",
+                        "schema": {
+                            "$ref": "#/definitions/Exit information"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Parking": {
+            "properties": {
+                "id": {
+                    "type": "number"
+                },
+                "space": {
+                    "type": "number",
+                    "value": 200
+                }
+            }
+        },
+        "Vehicle": {
+            "required": [
+                "make",
+                "plate",
+                "type",
+                "club_pass"
+            ],
+            "properties": {
+                "id": {
+                    "type": "number"
+                },
+                "make": {
+                    "type": "string",
+                    "value": "BMW"
+                },
+                "plate": {
+                    "type": "string",
+                    "value": "CA1111BH"
+                },
+                "type": {
+                    "type": "string",
+                    "value": "A | B | C"
+                },
+                "club_pass": {
+                    "type": "string",
+                    "value": " \"\" | Silver | Gold | Platinum"
+                }
+            }
+        },
+        "Exit information": {
+            "required": [
+                "plate"
+            ],
+            "properties": {
+                "Daytime hours": {
+                    "type": "number",
+                    "value": "1"
+                },
+                "Nighttime hours": {
+                    "type": "number",
+                    "value": "0"
+                },
+                "Price": {
+                    "type": "number",
+                    "value": "2.00"
+                },
+                "Club Pass Discount (%)": {
+                    "type": "number",
+                    "value": "20"
+                },
+                "Final price": {
+                    "type": "number",
+                    "value": "1.60"
+                }
+            }
+        }
+    }
+}
