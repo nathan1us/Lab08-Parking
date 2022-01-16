@@ -88,16 +88,20 @@
 			"response": []
 		},
 		{
-			"name": "Get Vehicle by license plate",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
+			"name": "Register a vehicle (Empty)",
 			"request": {
-				"method": "GET",
-				"header": [],
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"plate\": \"CA1111BH\"\n}",
+					"raw": "{\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -119,13 +123,16 @@
 			"response": []
 		},
 		{
-			"name": "Remove vehicle by license plate",
+			"name": "Get Vehicle by license plate (Empty)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
-				"method": "DELETE",
+				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"plate\": \"CA1111BH\"\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -133,14 +140,73 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/vehicle",
+					"raw": "http://localhost:3000/vehicle/",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"vehicle"
+						"vehicle",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove vehicle by license plate",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/vehicle/CA1111BH",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"vehicle",
+						"CA1111BH"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove vehicle by license plate (Empty)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/vehicle/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"vehicle",
+						""
 					]
 				}
 			},
