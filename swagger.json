@@ -110,7 +110,6 @@
                         "in": "body",
                         "description": "Request body containing all necessary information about a vehicle",
                         "required": true,
-                        "type": "string",
                         "schema": {
                             "$ref": "#/definitions/Vehicle"
                         }
@@ -203,24 +202,19 @@
             ],
             "properties": {
                 "Daytime hours": {
-                    "type": "number",
-                    "value": "1"
+                    "type": "number"
                 },
                 "Nighttime hours": {
-                    "type": "number",
-                    "value": "0"
+                    "type": "number"
                 },
                 "Price": {
-                    "type": "number",
-                    "value": "2.00"
+                    "type": "number"
                 },
                 "Club Pass Discount (%)": {
-                    "type": "number",
-                    "value": "20"
+                    "type": "number"
                 },
                 "Final price": {
-                    "type": "number",
-                    "value": "1.60"
+                    "type": "number"
                 }
             }
         }
