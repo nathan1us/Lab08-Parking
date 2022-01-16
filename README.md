@@ -1,5 +1,7 @@
 # Lab08 Parking
 
+[![GitHub stars](https://img.shields.io/github/stars/nathan1us/Lab08-Parking?style=flat-square)](https://github.com/nathan1us/Lab08-Parking/stargazers) [![GitHub issues](https://img.shields.io/github/issues/nathan1us/Lab08-Parking?style=flat-square)](https://github.com/nathan1us/Lab08-Parking/issues) 
+
 ## About
 
 RESTful API that imitates a parking lot system.
@@ -22,9 +24,9 @@ Make sure to visit the [API's endpoints documentation](https://nathan1us.github.
 
 2. Configure your MySQL connection using a `.env` file. It must follow the same structure as the `.env.example` file, provided with the project during cloning.
 
-2. Run `npm install` from a CLI of your choice
+2. Run `npm install` from a CLI of your choice.
 
-* (Optional) Run `npm run test` to perform unit testing
+* (Optional) Run `npm run test` to perform unit testing.
 3. Run `npm start dev` from a CLI of your choice to start the API.
 
 4. Use Postman or a similiar app/method to access the API's endpoints. (Note: Inside the project's root folder you can find a Postman collection file which is ready for importing into Postman. It contains pre-defined request templates to make accessing the API faster and easier.)
