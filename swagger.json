@@ -162,8 +162,7 @@
                     "type": "number"
                 },
                 "space": {
-                    "type": "number",
-                    "value": 200
+                    "type": "number"
                 }
             }
         },
@@ -179,20 +178,16 @@
                     "type": "number"
                 },
                 "make": {
-                    "type": "string",
-                    "value": "BMW"
+                    "type": "string"
                 },
                 "plate": {
-                    "type": "string",
-                    "value": "CA1111BH"
+                    "type": "string"
                 },
                 "type": {
-                    "type": "string",
-                    "value": "A | B | C"
+                    "type": "string"
                 },
                 "club_pass": {
-                    "type": "string",
-                    "value": " \"\" | Silver | Gold | Platinum"
+                    "type": "string"
                 }
             }
         },
