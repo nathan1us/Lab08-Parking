@@ -24,7 +24,7 @@ Make sure to visit the [API's endpoints documentation](https://nathan1us.github.
 
 2. Configure your MySQL connection using a `.env` file. It must follow the same structure as the `.env.example` file, provided with the project during cloning.
 
-2. Run `npm install` from a CLI of your choice.
+2. Run `npm install` from a CLI of your choice. Once you've done that, run `npx prisma migrate dev --name init` to set up Prisma.
 
 * (Optional) Run `npm run test` to perform unit testing.
 3. Run `npm start dev` from a CLI of your choice to start the API.
