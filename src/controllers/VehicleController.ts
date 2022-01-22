@@ -11,7 +11,7 @@ import {
 const prisma = new PrismaClient();
 
 export const createVehicle = async (req: Request, res: Response) => {
-    if(Object.keys(req.body).length === 0)
+    if (Object.keys(req.body).length === 0)
         return res.json('No car information sent. Unable to process the request.')
 
     const parkingLot = await prisma.parking.findUnique({
@@ -20,47 +20,46 @@ export const createVehicle = async (req: Request, res: Response) => {
         }
     });
 
-    if (parkingLot) {
-        const space = parkingLot.space;
-
-        const { make, plate, type, club_pass } = req.body;
-        const spaceNeeded = VEHICLE_SPACE[type];
-        Logger.debug(`[CREATE] ${plate} | ${make}, ${type}, ${club_pass}, ${spaceNeeded}`);
-
-        const car = await prisma.vehicle.findUnique({
-            where: {
-                plate: plate
-            }
-        });
-
-        if (car) {
-            return res.json('A car with that license plate already exists in the database!');
-        } else if (space > spaceNeeded) {
-            await prisma.parking.update({
-                where: {
-                    id: 1
-                },
-                data: {
-                    space: space - spaceNeeded
-                }
-            });
-
-            const vehicle = await prisma.vehicle.create({
-                data: {
-                    make,
-                    plate,
-                    type,
-                    club_pass
-                }
-            });
-
-            return res.json(vehicle);
-        } else {
-            return res.json('The parking lot is full! Try again later.');
-        }
-    } else {
+    if (!parkingLot)
         return res.json('Create a parking lot first!');
-    }
+
+    const space = parkingLot.space;
+
+    const { make, plate, type, club_pass } = req.body;
+    const spaceNeeded = VEHICLE_SPACE[type];
+    Logger.debug(`[CREATE] ${plate} | ${make}, ${type}, ${club_pass}, ${spaceNeeded}`);
+
+    if (space < spaceNeeded)
+        return res.json('The parking lot is full! Try again later.');
+
+    const car = await prisma.vehicle.findUnique({
+        where: {
+            plate: plate
+        }
+    });
+
+    if (car)
+        return res.json('A car with that license plate already exists in the database!');
+
+    await prisma.parking.update({
+        where: {
+            id: 1
+        },
+        data: {
+            space: space - spaceNeeded
+        }
+    });
+
+    const vehicle = await prisma.vehicle.create({
+        data: {
+            make,
+            plate,
+            type,
+            club_pass
+        }
+    });
+
+    return res.json(vehicle);
 }
 
 export const getVehicleByPlate = async (req: Request, res: Response) => {
@@ -106,54 +105,19 @@ export const removeVehicleByPlate = async (req: Request, res: Response) => {
     let end = new Date(Date.now());
 
     let startHours = start.getHours();
-    let endHours = end.getHours();
+    const milliseconds = Math.abs(end.valueOf() - start.valueOf());
+    let hoursDiff = milliseconds / 36e5;
 
-    if (start.getDate() == end.getDate()) {
-        if (startHours >= 8 && endHours >= 8 && startHours <= 18 && endHours <= 18) {
-            daytimeHours = endHours - startHours;
-        } else if ((startHours < 8 && endHours < 8) || (startHours > 18 && endHours > 18)) {
-            nighttimeHours = endHours - startHours;
-        } else if (startHours < 8 && endHours > 18) {
-            daytimeHours = 10;
-            nighttimeHours = (8 - startHours) + (endHours - 18);
-        } else if (startHours < 8 && endHours < 18) {
-            daytimeHours = endHours - 8;
-            nighttimeHours = 8 - startHours;
-        } else {
-            daytimeHours = 18 - startHours;
-            nighttimeHours = endHours - 18;
-        }
-    }
-    else {
-        if (startHours < 8) {
-            nighttimeHours = (24 - endHours) + (8 - startHours);
-        } else if (startHours < 18) {
-            daytimeHours = 18 - startHours;
-            nighttimeHours = 24 - endHours;
-        } else {
-            nighttimeHours = 24 - startHours;
-        }
+    if (hoursDiff < 1) hoursDiff = 1;
 
-        if (endHours < 8) {
-            nighttimeHours += endHours - 24;
-        } else if (endHours < 18) {
-            daytimeHours += endHours - 8;
-            nighttimeHours += -16;
-        } else {
-            daytimeHours += 10;
-            nighttimeHours += (endHours - 18) + (8 - 10)
-        }
+    let curr = startHours;
+    for (let i = 0; i < hoursDiff; i++) {
+        if (curr == 24) curr = 0;
 
-        let dateDiff = (end.getUTCDate() - start.getUTCDate()) - 1;
-        if (dateDiff > 0) {
-            daytimeHours += 10 * dateDiff;
-            nighttimeHours += 14 * dateDiff;
-        }
-    }
+        if (curr >= 8 && curr < 18) daytimeHours++;
+        if (curr < 8 || curr >= 18) nighttimeHours++;
 
-    if (daytimeHours == 0 && nighttimeHours == 0) {
-        if (endHours >= 8 && endHours < 18) daytimeHours = 1;
-        if (endHours < 8 || endHours >= 18) nighttimeHours = 1;
+        curr++;
     }
 
     let priceBeforeDiscount = daytimeHours * daytimeRate + nighttimeHours * nighttimeRate;
